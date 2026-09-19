@@ -1,0 +1,24 @@
+{
+  "alerts": [
+    {
+      "id": "d1b9c10c-11e3-4e6b-bd30-ba815a890430",
+      "type": "Account Lockout",
+      "severity": "critical",
+      "user": "connector",
+      "timestamp": "2026-03-17T19:17:44.804Z",
+      "rawLog": {
+        "reason": "max_failed_attempts"
+      }
+    }
+  ],
+  "cases": [],
+  "users": [
+    {
+      "id": "1d8309c9-2193-4fc2-b8b1-9fd27434fcb3",
+      "username": "connector",
+      "department": "Unknown",
+      "riskScore": 50,
+      "lastActive": "2026-03-17T19:17:44.804Z"
+    }
+  ]
+}

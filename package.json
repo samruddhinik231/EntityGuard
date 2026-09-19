@@ -1,0 +1,19 @@
+{
+  "name": "ueba-internal-threat-system",
+  "version": "1.0.0",
+  "description": "UEBA Internal Threat System with Node.js and React",
+  "main": "index.js",
+  "scripts": {
+    "install:server": "cd server && npm install",
+    "install:client": "cd frontend && npm install",
+    "postinstall": "npm run install:server && npm run install:client",
+    "start:server": "cd server && npm start",
+    "start:client": "cd frontend && npm run preview",
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

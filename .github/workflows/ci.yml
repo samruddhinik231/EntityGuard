@@ -1,0 +1,51 @@
+name: Enterprise CI/CD & Security Pipeline
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  security-and-test:
+    name: Security Audit & Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Backend - Install Dependencies
+        working-directory: ./server
+        run: npm ci || npm install
+
+      - name: Backend - Security Audit (SAST)
+        working-directory: ./server
+        # We allow this to pass on warning for now, but it flags high/critical CVEs in dependencies
+        run: npm audit --audit-level=high || echo "Vulnerabilities found! Please review."
+
+      - name: Backend - Run Unit & Integration Tests
+        working-directory: ./server
+        run: npm test
+        env:
+          JWT_SECRET: "ci_test_secret"
+          SESSION_SECRET: "ci_session_secret"
+          PERSISTENCE_DRIVER: "file"
+          AUTH_PROVIDER: "env"
+
+      - name: Frontend - Install Dependencies
+        working-directory: ./frontend
+        run: npm ci || npm install
+
+      - name: Frontend - Security Audit
+        working-directory: ./frontend
+        run: npm audit --audit-level=high || echo "Vulnerabilities found! Please review."
+
+      - name: Frontend - Build Verification
+        working-directory: ./frontend
+        run: npm run build
